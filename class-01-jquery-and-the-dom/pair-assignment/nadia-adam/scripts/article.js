@@ -10,8 +10,8 @@ Article.prototype.toHtml = function() {
   var $newArticle = $('article.template').clone();
 
   $newArticle.data('category', this.category);
-  $newArticle.data('name', this.name);
-  $newArticle.data('url', this.url);
+  $newArticle.data('author', this.author);
+  $newArticle.data('authorUrl', this.authorUrl);
   $newArticle.data('title', this.title);
   $newArticle.data('body', this.body);
   $newArticle.data('time', this.time);
