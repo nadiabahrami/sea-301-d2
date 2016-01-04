@@ -3,7 +3,7 @@ var articles = [];
 function Article (opts) {
   // TODO: Use the js object passed in to complete this contructor function:
   // Save ALL the properties of `opts` into `this`.
-  $(this).author = opts(.author);
+  $(this).author = opts.author;
 }
 
 Article.prototype.toHtml = function() {
@@ -22,16 +22,16 @@ Article.prototype.toHtml = function() {
   // publication date.
 
   // Include the publication date as a 'title' attribute to show on hover:
-  $newArticle.find('time[pubdate]').attr('title', this.publishedOn, .hover());
+  $newArticle.find('time[pubdate]').attr('title', this.publishedOn).hover();
 
 
   // Display the date as a relative number of "days ago":
-  $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago')
+  $newArticle.find('time').html('about ' + parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
 
   $newArticle.append('<hr>');
 
   // TODO: This cloned article is no longer a template, so we should remove that class...
-
+  $newArticle.removeClass('template');
   return $newArticle;
 }
 
