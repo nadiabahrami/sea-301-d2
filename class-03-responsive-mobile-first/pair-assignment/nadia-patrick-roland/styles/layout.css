@@ -13,17 +13,14 @@
 }
 
 .heading-group-h1 {
-  max-width: 80%;
+  width: 75%;
 }
 
 #filters select {
   width: 90%;
   margin: .2em 5%;
 }
-#hamburger-menu  {
-  width: 20%;
-  float: right;
-}
+
 
 /* DONE: Add styles so the filters lay out better on desktop. */
 @media only screen and (min-width: 640px) {

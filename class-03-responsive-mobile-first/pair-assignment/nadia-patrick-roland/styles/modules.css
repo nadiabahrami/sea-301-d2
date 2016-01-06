@@ -9,8 +9,13 @@
 }
 
 /* TODO: Add styles for the icon-menu class. It should be bigger, and off to the right. */
-.icon-menu {
+/*.icon-menu {
 
+}*/
+
+#hamburger-menu  {
+  width: 20%;
+  float: right;
 }
 
 .main-nav {
@@ -58,3 +63,17 @@
          - Main should be all on one row, with padding spaced better for a larger screen.
          - Just, ya know, try to make it look good! */
 /* @media only screen... */
+@media only screen and (min-width: 640px) {
+  #hamburger-menu {
+    display: none;
+  }
+
+  .main-nav ul {
+    display: flex;
+  }
+
+  .main-nav:hover ul {
+    display: flex;
+  }
+
+}
