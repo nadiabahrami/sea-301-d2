@@ -62,5 +62,5 @@ function stopInterval() {
 }
 
 $.getJSON("gift.json",
-          write_thankU_card);
+          write_thankU_card);  // when you get the request back from the server run this function
 var idInterval = setInterval(showTicks, msDelay);
