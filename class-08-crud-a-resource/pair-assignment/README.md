@@ -18,9 +18,13 @@ Since there is no portfolio assignment, see if you can reach any stretch goals.
  - As an author, I want an admin mode with an edit link on each article (index.html?admin=true).
  - As an author, I want to load an existing article in the editor (editor/articles.html?id=42).
  - As an author, I want to have draft posts, so that I can save my writing without publishing.
+ 
+ - As a user, I want a user interface ("UI") that lets me show or hide all blog article images.
+ - As a user, I want a UI that lets to customize the appearance of the index page by selecting a "skin" (for example, try the demo at http://demos.telerik.com/radpagestylist/default.aspx and mouse-over/click varioius UI elements and observe color changes).
+ - As a user, I want at least one of the skins to apply a different set of font(s) and spatial layout to article elements (title, author, ...)
 
 ## Technical Requirements and Grading Rubric
- - Keep your code linted, as you work. Clean up all concerns before submitting.
- - Continue to make good use of SMACSS principles.
+ - Keep your code linted as you work. Clean up all concerns before submitting.
+ - Continue to make good use of SMACSS principles. For the "skin-able page" stretch goal, place skin-related rules in themes.css
  - Utilize webSQL (the via provided `webDB` wrapper) to load and store articles information
  - Import the data into WebSQL from your JSON source.
