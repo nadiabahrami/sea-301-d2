@@ -22,7 +22,7 @@
   // *DONE: Set up a DB table for articles.
   Article.createTable = function(callback) {
     webDB.execute(
-      'CREATE TABLE ipsumArticles(title VARCHAR(50), author VARCHAR(50), category VARCHAR(50), authorUrl VARCHAR(50), publishedOn VARCHAR(10), body VARCHAR(10));',
+      'CREATE TABLE IF NOT EXISTS ipsumArticles(title VARCHAR(50), author VARCHAR(50), category VARCHAR(50), authorUrl VARCHAR(50), publishedOn VARCHAR(10), body VARCHAR(10));',
       function(result) {
         console.log('Successfully set up the articles table.', result);
         if (callback) callback();
@@ -108,7 +108,7 @@
 
           });
           // Now get ALL the records out the DB, with their database IDs:
-          webDB.execute('SELECT * FROM ipsumArticles', function(rows) {
+          webDB.execute('SELECT * FROM ipsumArticles ORDER BY title ASC', function(rows) {
             // Now instanitate those rows with the .loadAll function, and pass control to the view.
             Article.loadAll(rows);
             next();
