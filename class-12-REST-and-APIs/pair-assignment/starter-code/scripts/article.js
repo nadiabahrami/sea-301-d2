@@ -1,6 +1,5 @@
 (function(module) {
   function Article (opts) {
-    // DONE: Here, we are using Functional Programming to DRY out our property assignment.  ALL of the properties of our 'opts' object will now be assigned as properties of the newly created article object.
     Object.keys(opts).forEach(function(e, index, keys) {
       this[e] = opts[e];
     },this);
@@ -8,20 +7,16 @@
 
   Article.all = [];
 
-  Article.prototype.toHtml = function() {
-    var template = Handlebars.compile($('#article-template').text());
-
-    this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
-    this.publishStatus = this.publishedOn ? 'published ' + this.daysAgo + ' days ago' : '(draft)';
-    this.body = marked(this.body);
-
-    return template(this);
-  };
-
-  // TODO: Setup a DB table for our articles.  Be sure to include all of the required fields and their associated constraints.
   Article.createTable = function(callback) {
     webDB.execute(
-      '...',
+      'CREATE TABLE IF NOT EXISTS articles (' +
+        'id INTEGER PRIMARY KEY, ' +
+        'title VARCHAR(255) NOT NULL, ' +
+        'author VARCHAR(255) NOT NULL, ' +
+        'authorUrl VARCHAR (255), ' +
+        'category VARCHAR(20), ' +
+        'publishedOn DATETIME, ' +
+        'body TEXT NOT NULL);',
       function(result) {
         console.log('Successfully set up the articles table.', result);
         if (callback) callback();
@@ -29,78 +24,70 @@
     );
   };
 
-  // TODO: Correct the SQL to delete all records from the articles table.
   Article.truncateTable = function(callback) {
     webDB.execute(
-      'DELETE ...;',
+      'DELETE FROM articles;',
       callback
     );
   };
 
-
-  // TODO: Insert an article instance into the database.  Be sure to make the values of each record dynamic.
   Article.prototype.insertRecord = function(callback) {
     webDB.execute(
       [
         {
-          'sql': '...;',
-          'data': [],
+          'sql': 'INSERT INTO articles (title, author, authorUrl, category, publishedOn, body) VALUES (?, ?, ?, ?, ?, ?);',
+          'data': [this.title, this.author, this.authorUrl, this.category, this.publishedOn, this.body],
         }
       ],
       callback
     );
   };
 
-  // TODO: Delete an article instance from the database.
   Article.prototype.deleteRecord = function(callback) {
     webDB.execute(
       [
         {
-          /* ... */
+          'sql': 'DELETE FROM articles WHERE id = ?;',
+          'data': [this.id]
         }
       ],
       callback
     );
   };
 
-  // TODO: Update an article instance, overwriting it's properties into the corresponding record in the database.
   Article.prototype.updateRecord = function(callback) {
     webDB.execute(
       [
-        /* ... */
+        {
+          'sql': 'UPDATE articles SET title = ?, author = ?, authorUrl = ?, category = ?, publishedOn = ?, body = ? WHERE id = ?;',
+          'data': [this.title, this.author, this.authorUrl, this.category, this.publishedOn, this.body, this.id]
+        }
       ],
       callback
     );
   };
 
-  // DONE: Refactor to expect the raw data from the database, rather than localStorage.
   Article.loadAll = function(rows) {
     Article.all = rows.map(function(ele) {
       return new Article(ele);
     });
   };
 
-  // TODO: Refactor this to check if the database holds any records or not. If the DB is empty,
-  // we need to retrieve the JSON and process it.
-  // If the DB has data already, we'll load up the data (sorted!), and then hand off control to the View.
   Article.fetchAll = function(next) {
-    webDB.execute('', function(rows) {
-      // Check to see if our article has any rows
+    webDB.execute('SELECT * FROM articles ORDER BY publishedOn DESC', function(rows) {
       if (rows.length) {
-        // Now instanitate those rows with the .loadAll function, and pass control to the view.
-
+        Article.loadAll(rows);
+        next();
       } else {
         $.getJSON('/data/hackerIpsum.json', function(rawData) {
           // Cache the json, so we don't need to request it next time:
           rawData.forEach(function(item) {
             var article = new Article(item); // Instantiate an article based on item from JSON
-            // Cache the newly-instantiated article in DB:
-
+            article.insertRecord(); // Cache the article in DB
           });
-          // Now get ALL the records out the DB, with their database IDs:
-          webDB.execute('', function(rows) {
-            // Now instanitate those rows with the .loadAll function, and pass control to the view.
-
+          webDB.execute('SELECT * FROM articles', function(rows) {
+            Article.loadAll(rows);
+            next();
           });
         });
       }
@@ -136,13 +123,13 @@
           return a.author === author;
         })
         .map(function(a) {
-          return a.body.match(/\b\w+/g).length
+          return a.body.match(/\b\w+/g).length;
         })
         .reduce(function(a, b) {
           return a + b;
         })
-      }
-    })
+      };
+    });
   };
 
   Article.stats = function() {
@@ -151,7 +138,7 @@
       numWords: Article.numwords(),
       Authors: Article.allAuthors(),
     };
-  }
+  };
 
   module.Article = Article;
 })(window);
