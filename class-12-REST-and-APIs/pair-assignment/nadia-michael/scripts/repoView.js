@@ -9,9 +9,9 @@
     $about.show().siblings().hide();
   };
 
-  // TODO: How do you want to render a single repo as html? Return your filled in HTML template.
+  // DONE: How do you want to render a single repo as html? Return your filled in HTML template.
   var render = function(repo) {
-
+    return '<li>'+ repo.name+': '+ repo.url +'</li>';
   };
 
   // DONE: If all the data is loaded, we can prep the UI and render the repos.
@@ -21,7 +21,7 @@
     // The jQuery `append` method lets us append an entire array of HTML elements at once,
     // So we can use a little FP to transform our data-set into DOM nodes:
     $('#about ul').append(
-      repos.with('forks_count').map(render)
+      repos.with('has_downloads').map(render)
     );
   };
 
