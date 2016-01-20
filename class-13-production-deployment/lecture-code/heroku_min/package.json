@@ -1,0 +1,11 @@
+{
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "ejs": "2.3.3",
+    "express": "4.13.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.heroku.com/intense-dawn-1056.git"
+  }
+}
