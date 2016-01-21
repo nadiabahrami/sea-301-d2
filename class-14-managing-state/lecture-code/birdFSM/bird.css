@@ -1,0 +1,13 @@
+body {
+ background-color: #eaf0ff;
+}
+
+button {
+  font-size: 1.2rem;
+  color: black;
+  background-color: #e8e8ff;
+}
+
+#btnPhoenix {
+  display: none;
+}
